@@ -10,15 +10,29 @@ Templates for the "Valo - Universal" web part used on our intranet, ___Innsida__
 
 ![Example of calendar event tabs](_docs/CalendarTabExample.png)
 
+#### Description
+
 The universal calendar event tab web part generates dynamic tabs based on data from the [azf-calendar-api](https://github.com/vtfk/azf-calendar-api). The Azure function gets the events from Microsoft Graph (using the users access token), and uses this template displays it on the intranet.
+
+#### Links:
+:link: &nbsp;&nbsp; __Handlebars Template:__ [calendar/CalendarEventTabs.html](calender/CalendarEventTabs.html)<br />
+:link: &nbsp;&nbsp; __Azure functions API:__ [azf-calendar-api](https://github.com/vtfk/azf-calendar-api)<br />
+
 
 ### Task Event Tabs
 
 ![Example of task tabs](_docs/TaskTabExample.png)
 
+#### Description
+
 This web part displays tasks from different sources to the end user. Gets data from Azure function [azf-tasks-api](https://github.com/vtfk/azf-tasks-api), that collects the tasks from Planner, To Do, Visma, (and Public 360), so the users don't have to check for tasks in the business applications self.
 
-## Got questions?
+#### Links:
+:link: &nbsp;&nbsp; __Handlebars Template:__ [tasks/TasksTabs.html](tasks/TasksTabs.html)<br />
+:link: &nbsp;&nbsp; __Azure functions API:__ [aazf-tasks-api](https://github.com/vtfk/azf-tasks-api)<br />
+
+
+## Questions?
 
 Please [create an issue here](https://github.com/vtfk/valo-handlebar-templates/issues), if you have any questions, concerns, or issues.
 
