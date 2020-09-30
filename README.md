@@ -15,7 +15,7 @@ Templates for the "Valo - Universal" web part used on our intranet, ___Innsida__
 The universal calendar event tab web part generates dynamic tabs based on data from the [azf-calendar-api](https://github.com/vtfk/azf-calendar-api). The Azure function gets the events from Microsoft Graph (using the users access token), and uses this template displays it on the intranet.
 
 #### Links:
-:link: &nbsp;&nbsp; __Handlebars Template:__ [calendar/CalendarEventTabs.html](calender/CalendarEventTabs.html)<br />
+:link: &nbsp;&nbsp; __Handlebars Template:__ [calendar/CalendarEventTabs.html](calendar/CalendarEventTabs.html)<br />
 :link: &nbsp;&nbsp; __Azure functions API:__ [azf-calendar-api](https://github.com/vtfk/azf-calendar-api)<br />
 
 
