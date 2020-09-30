@@ -1,0 +1,47 @@
+<content id="template" type="x-handlebars-template">
+  <div class="ms-Grid">
+    {{#with dsData}}
+    <div class="task-box">
+      {{#with visma}}
+      {{#if tasks}}
+      <div class="task-box-title">Oppgaver hentet fra Visma: {{count}}</div>
+      <ul class="task-box-list">
+        {{#each tasks}}
+        <li class="task-box-listitem">
+          <a class="task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i Visma" target="_blank">
+            <div class="task-box-listitem-content">
+              {{title}}
+            </div>
+
+          </a>
+        </li>
+        {{/each}}
+      </ul>
+      {{else}}
+      <div class="task-box-title">Du har ingen gjenstående oppgaver i Visma. </div>
+      {{/if}}
+      {{/with}}
+
+    </div>
+    {{/with}}
+
+  </div>
+</content>
+
+<content id="placeholder" type="x-handlebars-template">
+  <div class="ms-Grid">
+    <div class="">
+      <span style="font-style: italic;">Henter oppaver...</span>
+    </div>
+  </div>
+</content>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+
+<head>
+  <!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:TemplateTitle msdt:dt="string">Visma-tasks</mso:TemplateTitle>
+<mso:DataSource msdt:dt="string">MicrosoftGraphDataSource</mso:DataSource>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>

@@ -1,0 +1,128 @@
+<content id="customHelpers" type="x-handlebars-helpers">
+  <script>
+    function datediffFromToday(date) {
+      var dt2 = new Date(date);
+      var dt1 = new Date();
+      var diff = Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(),
+        dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
+      if (diff >= 1) {
+        return 1;
+      } else if (diff <= -1) {
+        return -1;
+      } else if (diff === 0) {
+        return 0;
+      }
+    }
+
+    Handlebars.registerHelper('ifeq', function (date, value) {
+      var dateCompare = datediffFromToday(date);
+
+      if (dateCompare == value) {
+        return true;
+      }
+      return false;
+    });
+  </script>
+</content>
+
+<content id="template" type="x-handlebars-template">
+  <div class="ms-Grid">
+    {{#with dsData}}
+    <div class="task-box">
+      {{#with outlook}}
+      {{#if tasks}}
+      <div class="task-box-title">Oppgaver hentet fra To-Do: {{count}}</div>
+      <ul class="task-box-list">
+        {{#each tasks}}
+        <li class="task-box-listitem">
+          <a class="task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i To-Do" target="_blank">
+            <div>
+              <div class="task-box-listitem-content">
+                {{title}}
+              </div>
+            </div>
+            {{#if dueDateTime }}
+            <div class="task-time-box">
+              {{#if (ifeq dueDateTime 1)}}
+              <span class="task-duedate-box green">
+                <i class="ms-Icon ms-Icon--Calendar"></i>
+
+                {{ moment dueDateTime format="MM/DD/YYYY"}}
+              </span>
+              {{/if}}
+              {{#if (ifeq dueDateTime 0)}}
+              <span class="task-duedate-box yellow">
+                <i class="ms-Icon ms-Icon--Calendar"></i>
+
+                {{ moment dueDateTime format="MM/DD/YYYY"}}
+              </span>
+              {{/if}}
+              {{#if (ifeq dueDateTime -1)}}
+              <span class="task-duedate-box red">
+                <i class="ms-Icon ms-Icon--Calendar"></i>
+
+                {{ moment dueDateTime format="MM/DD/YYYY"}}
+              </span>
+              {{/if}}
+            </div>
+            {{/if}}
+          </a>
+        </li>
+        {{/each}}
+        {{#eq count 0}}
+        <li class="task-box-listitem">
+          <a class="task-box-listitem-link" href="https://to-do.office.com/tasks/" title="Lag en ny oppgave i Gjør"
+            target="_blank">
+            <div class="task-box-listitem-content"
+              style="color:#005260;font-weight:600;font-style:italic;font-size: 14px">
+              <!--<i class="ms-Icon ms-Icon--ToDoLogoInverse" style="font-size: 20px;vertical-align: middle;"></i>-->
+              Lag en ny oppgave i Todo
+              <i class="ms-Icon ms-Icon--NavigateForward"
+                style="vertical-align: middle;font-size: 20px;margin-left: 20px;line-height: 30px;"></i>
+            </div>
+          </a>
+        </li>
+        {{/eq}}
+      </ul>
+      {{else}}
+      {{{log}}}
+      <div class="task-box-title">Du har ingen gjenstående oppgaver i To-Do.</div>
+      <ul class="task-box-list">
+        <li class="task-box-listitem">
+          <a class="task-box-listitem-link" href="https://to-do.office.com/tasks/" title="Lag en ny oppgave i Gjør"
+            target="_blank">
+            <div class="task-box-listitem-content"
+              style="color:#005260;font-weight:600;font-style:italic;font-size: 14px">
+              <!--<i class="ms-Icon ms-Icon--ToDoLogoInverse" style="font-size: 20px;vertical-align: middle;"></i>-->
+              Lag en ny oppgave i Todo
+              <i class="ms-Icon ms-Icon--NavigateForward"
+                style="vertical-align: middle;font-size: 20px;margin-left: 20px;line-height: 30px;"></i>
+            </div>
+          </a>
+        </li>
+      </ul>
+      {{/if}}
+      {{/with}}
+    </div>
+    {{/with}}
+    {{ log dsData }}
+  </div>
+</content>
+
+<content id="placeholder" type="x-handlebars-template">
+  <div class="ms-Grid">
+    <div class="">
+      <span style="font-style: italic;">Henter oppaver...</span>
+    </div>
+  </div>
+</content>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+
+<head>
+  <!--[if gte mso 9]><xml>
+  <mso:CustomDocumentProperties>
+  <mso:TemplateTitle msdt:dt="string">Todo-tasks</mso:TemplateTitle>
+  <mso:DataSource msdt:dt="string">MicrosoftGraphDataSource</mso:DataSource>
+  </mso:CustomDocumentProperties>
+  </xml><![endif]-->
+</head>
