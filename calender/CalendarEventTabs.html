@@ -1,0 +1,475 @@
+<content id="customHelpers" type="x-handlebars-helpers">
+  <script>
+      Handlebars.registerHelper('customlog', function (dsData) {
+          console.log('dsdata', dsData);
+      });
+      Handlebars.registerHelper('print_id', function (tabName) {
+          var res = tabName.split(" ");
+          var nameString = res[0] + res[1];
+          return nameString;
+      });
+
+      (function (url, position, callback) {
+          // default values
+          url = url || 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js';
+          position = position || 0;
+
+          // Check is jQuery exists
+          if (!window.jQuery) {
+              // Initialize <head>
+              var head = document.getElementsByTagName('head')[0];
+              // Create <script> element
+              var script = document.createElement("script");
+              // Append URL
+              script.src = url;
+              // Append type
+              script.type = 'text/javascript';
+              // Append script to <head>
+              head.appendChild(script);
+              // Move script on proper position
+              head.insertBefore(script, head.childNodes[position]);
+
+              script.onload = function () {
+                  if (typeof callback == 'function') {
+                      callback(jQuery);
+                  }
+              };
+          } else {
+              if (typeof callback == 'function') {
+                  callback(jQuery);
+              }
+          }
+      }('https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js', 5, function ($) {
+          console.log($);
+          //begin main function
+          $(document).ready(function () {
+              $('.tabs-nav li:first-child').addClass('active');
+              $('.tabs-nav a').click(function(ev) {
+                  ev.preventDefault();
+                  // Check for active
+                  $('.tabs-nav li').removeClass('active');
+                  $(this).parent().addClass('active');
+
+                  // Display active tab
+                  let currentTab = $(this).attr('href');
+                  $('.tabs-content>div').hide();
+                  $(currentTab).show();
+                  console.log(currentTab);
+                  return false;
+              });
+          });
+          //end main function
+      }));
+     
+  </script>
+</content>
+<content id="metadata" type="x-handlebars-metadata">
+  {
+  "totalResults": 3
+  }
+</content>
+
+
+<content id="template" type="x-handlebars-template">
+  <style>
+      .event-date-container {
+          width: 80px;
+          height: 80px;
+          padding: 0px;
+          border-radius: 2px;
+      }
+
+      .event-date-box {
+          width: 70px;
+          margin: 0px auto;
+      }
+
+      .event-date-container:hover {
+          box-shadow: 3px 4px 6px #bababa;
+      }
+
+      .event-date-box .event-separator {
+          margin: 8px auto;
+          width: 50px;
+      }
+
+      .event-date-container .event-separator:hover {
+          width: 64px;
+      }
+
+      .event-date-box .event-date {
+          font-size: 15px;
+          line-height: 15px;
+          font-weight: 600;
+          width: 30px;
+          float: left;
+          text-align: center;
+          vertical-align: middle;
+      }
+
+      .event-date-box .event-date-single {
+          font-size: 18px;
+          line-height: 15px;
+          font-weight: 600;
+          width: 30px;
+          float: left;
+          text-align: center;
+          vertical-align: middle;
+      }
+
+      .event-date-box .event-month {
+          line-height: 15px;
+          font-size: 14px;
+          font-weight: 600;
+          width: 38px;
+          float: right;
+          text-align: left;
+      }
+
+      .event-date-box .event-month-single {
+          line-height: 15px;
+          font-size: 18px;
+          font-weight: 600;
+          width: 38px;
+          float: right;
+          text-align: left;
+      }
+
+      .event-item-box {
+          min-height: 90px;
+          cursor: pointer;
+          margin: 0 8px;
+          padding: 4px 0;
+          height: auto;
+      }
+      .valo-events__item__wrapper{
+          /*border: 1px solid #efefef!important;*/
+      }
+      .event-template{
+         min-height: 258px;
+      max-height: 492px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      }
+      /*tabs new */
+      .tabs-nav ul {
+          margin: 0;
+          padding: 0;
+      }
+      .tabs-nav li {
+          display: inline-block;
+          margin-right:-4px
+      }
+      .tabs-nav li>a {
+          background: #e8e8e8;
+          color: #333333;
+          min-height: 27px;
+          line-height: 23px;
+      }
+      
+      .tabs-nav a {
+          display: block;
+          padding: 8px 10px;
+          text-decoration: none;
+          font-weight: 400;
+          font-size: 17px;
+      }
+      /* Active tab */
+      .tabs-nav li.active >a {
+          background: #309aa3;
+          color: #fff !important;
+          font-weight: 300;
+      }
+      .tabs-nav li.active a {
+          color: inherit;
+      }
+      /* Tab content */
+      .tabs-content {
+          border: 1px solid #e8e8e8;
+          padding: 10px;
+          background: #FFF;
+          margin-top: -1px;
+          max-height: 428px;
+          overflow: hidden;
+          overflow-y: auto;
+      }
+      .tabs-content IMG {
+          margin-right: 10px;
+      }
+      /* Hide all but first content div */
+      .tabs-content>div:not(:first-child) {
+          display: none;
+      }
+      .clearfix:after {
+          visibility: hidden;
+          display: block;
+          font-size: 0;
+          content: " ";
+          clear: both;
+          height: 0;
+      }
+      .clearfix { display: inline-block; }
+      .items-wrap .items {
+          width:100%;
+          display:block;
+          position:relative;
+          margin-bottom:5px;
+      }
+      .items-wrap .items:nth-child(even){
+          background:#f5f5f5;
+      }
+      .items .show-date {
+          width:80px;
+          height:80px;
+          background: #309aa3;
+          color: #fff;
+          display:flex;
+          flex-direction: column;
+          justify-content:center;
+          align-items: center;
+          float: left;
+      }
+      .items .items_content {
+          margin-left: 90px;
+      }
+      .items_title {
+          padding:8px 0;
+          font-weight:500;
+      }
+      .items_link {
+          text-decoration:none;
+          color:#333;
+      }
+      .items_content .allday-icon {
+          float: right;
+          bottom: 34% !important;
+      }
+  </style>
+  <div class="valo-events compact ms-Grid event-template" template-id="valo-rec-compact">
+      <div>
+          {{#if tplTitle}}
+          <span class="vm-wpTitle">{{tplTitle}}</span>
+          {{/if}}
+          {{#if paging}}
+          <span class="paging ms-font-xl">
+              <a id="prevPage" class="valo-wp__wp-title-bar__pagination-link valoPaginationPrevPage"
+                  href="javascript:;"><i class="ms-Icon ms-Icon--ChevronLeft" aria-hidden="true"></i></a> <a
+                  id="nextPage" class="valo-wp__wp-title-bar__pagination-link valoPaginationNextPage"
+                  href="javascript:;"><span></span> <i class="ms-Icon ms-Icon--ChevronRight"
+                      aria-hidden="true"></i></a>
+          </span>
+          {{/if}}
+      </div>
+      
+      <div id="container">
+          {{#with dsData}}
+              <header class="tabs-nav">
+                  <ul>
+                      {{#each tabs}}
+                          <li class=""><a href="#{{print_id tabName}}">{{tabName}}</a></li>
+                      {{/each}}
+                  </ul>
+              </header>
+              <section class="tabs-content">
+                  {{#each tabs}}
+                      <div id="{{print_id tabName}}">
+                         <div class="items-wrap">
+                              {{#each events}}
+                                  {{#eq isCancelled false}}
+                                  <a class="items_link" href="{{webLink}}" target="_blank" title="Åpne i Outlook">
+                                  <div class="items clearfix">
+                                      <div class="show-date">
+                                          {{#eq (formatEventDate start.dateTime "MMM DD" false) (formatEventDate end.dateTime "MMM DD" false)}}
+                                          <div class="event-date-box">
+                                              <span class="valo-events__item__event-day event-date-single">
+                                                  {{ wrapWithHtmlElementAsync "span" (formatEventDateAsync start.dateTime "DD" false webLink) }}
+                                              </span>
+                                              <span class="valo-events__item__event-month event-month-single">
+                                                  {{ wrapWithHtmlElementAsync "span" (localizedMonthAsync (formatEventDateAsync start.dateTime "" false webLink)) }}
+                                              </span>
+                                          </div>
+                                          {{else}}
+                                          <div class="event-date-box">
+                                              <span class="valo-events__item__event-startday event-date">
+                                                  {{ wrapWithHtmlElementAsync "span" (formatEventDateAsync start.dateTime "DD" false webLink) }}
+                                              </span>
+                                              <span class="valo-events__item__event-startmonth event-month">
+                                                  {{ wrapWithHtmlElementAsync "span" (localizedMonthAsync (formatEventDateAsync EventsRollUpStartDate "" false webLink)) }}
+                                              </span>
+                                          </div>
+
+                                          <div class="valo-events__item__event-separator event-separator">-</div>
+                                          <div class="event-date-box">
+                                              <div class="valo-events__item__event-endday event-date">
+                                                  {{ wrapWithHtmlElementAsync "span" (formatEventDateAsync end.dateTime "DD" false webLink) }}
+                                              </div>
+                                              <div class="valo-events__item__event-endmonth event-month">
+                                                  {{ wrapWithHtmlElementAsync "span" (localizedMonthAsync (formatEventDateAsync end.dateTime "" false webLink)) }}
+                                              </div>
+                                          </div>
+
+                                          {{/eq}}
+                                      </div>
+                                      <div class="items_content">
+                                          {{#if isAllDay}}<i class="allday-icon ms-Icon ms-Icon--SkypeCircleClock"
+                                                  title="Heldags hendelse" aria-hidden="true"></i> {{/if}}
+                                          <div class="items_title">{{subject}}</div>
+                                          <div class="dateTimehere">
+                                              
+                                              <span class="valo-events__item__event-time cancelled">
+                                                  <i class="valo-events__item__event-time-icon ms-Icon ms-Icon--Clock"
+                                                      aria-hidden="true"></i>
+
+                                                  {{ wrapWithHtmlElementAsync "span" (meetingTimeAsync start.dateTime end.dateTime false webLink) }}
+                                              </span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  </a>
+                                  {{/eq}}
+                              {{/each}}
+                         </div>
+                      </div>
+                  {{/each}}
+              </section>     
+              {{/with}}
+      </div>
+      {{#with dsData}}
+      {{#each tabs}}
+     
+      <div class="valo-events__list ms-Grid-row vm-Cards">
+          {{#eq isCancelled false}}
+          <a class="valo-events__item ms-sm4 vm-Card event-item-box" href="{{webLink}}" title="">
+              <div class="valo-events__item__wrapper">
+                  <div class="valo-events__item__event-date event-date-container">
+                      {{#eq (formatEventDate start.dateTime "MMM DD" false) (formatEventDate end.dateTime "MMM DD" false)}}
+                      <div class="event-date-box">
+                          <div class="valo-events__item__event-day event-date-single">
+                              {{ wrapWithHtmlElementAsync "span" (formatEventDateAsync start.dateTime "DD" false webLink) }}
+                          </div>
+                          <div class="valo-events__item__event-month event-month-single">
+                              {{ wrapWithHtmlElementAsync "span" (localizedMonthAsync (formatEventDateAsync start.dateTime "" false webLink)) }}
+                          </div>
+                      </div>
+                      {{else}}
+                      <div class="event-date-box">
+                          <div class="valo-events__item__event-startday event-date">
+                              {{ wrapWithHtmlElementAsync "span" (formatEventDateAsync start.dateTime "DD" false webLink) }}
+                          </div>
+                          <div class="valo-events__item__event-startmonth event-month">
+                              {{ wrapWithHtmlElementAsync "span" (localizedMonthAsync (formatEventDateAsync EventsRollUpStartDate "" false webLink)) }}
+                          </div>
+                      </div>
+
+                      <div class="valo-events__item__event-separator event-separator">-</div>
+                      <div class="event-date-box">
+                          <div class="valo-events__item__event-endday event-date">
+                              {{ wrapWithHtmlElementAsync "span" (formatEventDateAsync end.dateTime "DD" false webLink) }}
+                          </div>
+                          <div class="valo-events__item__event-endmonth event-month">
+                              {{ wrapWithHtmlElementAsync "span" (localizedMonthAsync (formatEventDateAsync end.dateTime "" false webLink)) }}
+                          </div>
+                      </div>
+
+                      {{/eq}}
+                  </div>
+                  {{#if isCancelled}}
+                  <div class="valo-events__item__event-info">
+                      <div class="valo-events__item__banner-info__text">
+                          <span class="valo-events__item__banner-info__title cancelled"
+                              >{{subject}}</span>
+                          {{#if isAllDay}}<i class="allday-icon ms-Icon ms-Icon--SkypeCircleClock"
+                              title="Heldagshendelse" aria-hidden="true"></i> {{/if}}
+                          <span class="valo-events__item__event-time cancelled">
+                              <i class="valo-events__item__event-time-icon ms-Icon ms-Icon--Clock"
+                                  aria-hidden="true"></i>
+
+                              {{ wrapWithHtmlElementAsync "span" (meetingTimeAsync start.dateTime end.dateTime false webLink) }}
+                          </span>
+                          <span class="valo-events__item__banner-info__location cancelled">
+                              {{#if location.displayName}}
+                              <i class="valo-events__item__event-location-icon ms-Icon ms-Icon--POI"
+                                  aria-hidden="true"></i>
+                              {{ location.displayName }}
+                              {{/if}}
+                          </span>
+
+                      </div>
+                  </div>
+                  {{else}}
+                  <div class="valo-events__item__event-info">
+                      <div class="valo-events__item__banner-info__text">
+                          <span class="valo-events__item__banner-info__title" >{{subject}}</span>
+                          {{#if isAllDay}}<i class="allday-icon ms-Icon ms-Icon--SkypeCircleClock"
+                              title="Heldagshendelse" aria-hidden="true"></i> {{/if}}
+                          <span class="valo-events__item__event-time">
+                              <i class="valo-events__item__event-time-icon ms-Icon ms-Icon--Clock"
+                                  aria-hidden="true"></i>
+
+                              {{ wrapWithHtmlElementAsync "span" (meetingTimeAsync start.dateTime end.dateTime false webLink) }}
+                          </span>
+                          <span class="valo-events__item__banner-info__location">
+                              {{#if location.displayName}}
+                              <i class="valo-events__item__event-location-icon ms-Icon ms-Icon--POI"
+                                  aria-hidden="true"></i>
+                              {{ location.displayName }}
+                              {{/if}}
+                          </span>
+
+                      </div>
+                  </div>
+                  {{/if}}
+              </div>
+          </a>
+      {{/eq}}
+      </div>
+      {{/each}}
+      {{/with}}
+
+      {{ log dsData }}
+  </div>
+</content>
+
+<content id="placeholder" type="x-handlebars-template">
+  <div class="valo-events compact ms-Grid placeholder" template-id="valo-rec-compact">
+      <div class="valo-events__list ms-Grid-row vm-Cards">
+          <a class="valo-events__item ms-sm4 vm-Card" href="#" title="">
+              <div class="valo-events__item__wrapper">
+                  <div class="valo-events__item__event-date">
+                      <!-- Check if current the current date&month for start/end event date is the same-->
+                      <!-- Event is within one day: displayed localized day and month-->
+                      <div class="valo-events__item__event-day">
+                          <span id="valo-ee589a3b-c48c-4f28-867e-987379502ee7">14</span>
+                      </div>
+                      <div class="valo-events__item__event-month">
+                          <span id="valo-1a4e714c-ee9b-4a2b-a693-2fe9387d3ef8">Jun</span>
+                      </div>
+                  </div>
+                  <div class="valo-events__item__event-info">
+                      <div class="valo-events__item__banner-info__text">
+                          <span class="valo-events__item__banner-info__title" title="test events"></span>
+                          <span class="valo-events__item__event-time">
+                              <i class="valo-events__item__event-time-icon ms-Icon ms-Icon--Clock"
+                                  aria-hidden="true"></i>
+                              <span id="valo-e690d447-337f-4aac-8002-54b00512464f"></span>
+                          </span>
+
+                          <span class="valo-events__item__banner-info__location">
+                          </span>
+
+                      </div>
+                  </div>
+              </div>
+          </a>
+
+      </div>
+
+  </div>
+</content><html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"><head>
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:TemplateTitle msdt:dt="string">Calendar event tabs</mso:TemplateTitle>
+<mso:DataSource msdt:dt="string">MicrosoftGraphDataSource</mso:DataSource>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
