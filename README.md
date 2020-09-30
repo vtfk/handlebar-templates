@@ -29,7 +29,7 @@ This web part displays tasks from different sources to the end user. Gets data f
 
 #### Links:
 :link: &nbsp;&nbsp; __Handlebars Template:__ [tasks/TasksTabs.html](tasks/TasksTabs.html)<br />
-:link: &nbsp;&nbsp; __Azure functions API:__ [aazf-tasks-api](https://github.com/vtfk/azf-tasks-api)<br />
+:link: &nbsp;&nbsp; __Azure functions API:__ [azf-tasks-api](https://github.com/vtfk/azf-tasks-api)<br />
 
 
 ## Questions?
