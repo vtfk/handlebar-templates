@@ -111,6 +111,22 @@
         $('.items').click(function () {
           window.open($(this).data('href'), '_blank');
         })
+
+        function removeEndedEvents() {
+          let now = new Date();
+          let events = $("div.calendar-events");
+          $.each(events, function (i, event) {
+            let end = new Date($(event).data('event-end'));
+            if (end < now) {
+              console.log("Removed ended event", $(event).data('event-title'), 'ended at', $(event).data(
+                'event-end'));
+              $(event).remove();
+            }
+          })
+        }
+
+        setInterval(removeEndedEvents, 10000);
+        removeEndedEvents();
       });
       //end main function
     }));
@@ -380,7 +396,8 @@
           <div class="items-wrap">
             {{#each events}}
             {{#eq isCancelled false}}
-            <div class="items clearfix" data-href="{{webLink}}" title="Åpne i Outlook">
+            <div class="calendar-events items clearfix" data-href="{{webLink}}" data-event-start="{{start.dateTime}}Z"
+              data-event-end="{{end.dateTime}}Z" data-event-title="{{subject}}" title="Åpne i Outlook">
               <div class="show-date">
                 {{#eq (formatEventDate (moment (moment (concat  start.dateTime "Z") local=true) "YYYY-MM-DD HH:mm:ss") "MMM DD" false) (formatEventDate (moment (moment (concat  end.dateTime "Z") local=true) "YYYY-MM-DD HH:mm:ss") "MMM DD" false)}}
                 <div class="event-date-box">
