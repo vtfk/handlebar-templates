@@ -28,8 +28,8 @@
       const diff = (new Date(endDate)) - (new Date(startDate));
       const days = Math.floor(diff / (1000 * 3600 * 24))
 
-      if (days === 1) return "1 dag"
-      return `${days} dager`
+      if (days === 1) return "Hele dagen"
+      return `${days} hele dager`
     });
 
     Handlebars.registerHelper('cond', function (v1, operator, v2) {
