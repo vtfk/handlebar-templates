@@ -1,49 +1,50 @@
 <content id="customHelpers" type="x-handlebars-helpers">
   <script>
-    function datediffFromToday(date) {
+    function datediffFromToday (date) {
       var dt2 = new Date(date);
       var dt1 = new Date();
-      var diff = Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(),
-        dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
-      if (diff >= 1) {
+      var diff = Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) /(1000 * 60 * 60 * 24));
+      if (diff>=1) {
         return 1;
-      } else if (diff <= -1) {
+      } 
+      else if (diff <=-1) {
         return -1;
-      } else if (diff === 0) {
+      }
+      else if (diff === 0) {
         return 0;
       }
     }
 
     Handlebars.registerHelper('ifeq', function (date, value) {
       var dateCompare = datediffFromToday(date);
-      if (dateCompare == value) {
-        return true;
-      }
+      if (dateCompare == value) { return true; }
       return false;
     });
 
     Handlebars.registerHelper('customlog', function (dsData) {
       console.log('dsdata', dsData);
     });
+
     Handlebars.registerHelper('is_system', function (system) {
       return system && (system.tasks !== undefined && system.count !== undefined);
     });
+
     Handlebars.registerHelper('has_tasks', function (system, options) {
       if (system && system.count > 0) {
-        return options.fn(this)
+          return options.fn(this)
       }
       return options.inverse(this);
     });
+
     Handlebars.registerHelper('tab_taskcount', function (count) {
       return parseInt(count) > 0 ? " (" + count + ")" : "";
     });
+
     Handlebars.registerHelper('visma_tasktitle', function (task) {
-      const {
-        title,
-        number
-      } = task
+      const { title, number } = task
       return parseInt(number) > 1 ? `${number} ${title.toLowerCase()}` : title;
     });
+
     Handlebars.registerHelper('print_id', function (tabName) {
       var res = tabName.split(" ");
       return res.join("") + "-tasks";
@@ -80,11 +81,12 @@
         }
       }
     }('https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js', 5, function ($) {
-      console.log($);
-      //begin main function
       $(document).ready(function () {
-        $('.tasks-tabs-nav li:first-child').addClass('active');
-        $('.tasks-tabs-nav a').click(function (ev) {
+        if($("div.valo-tasks .tasks-tabs-nav li.active").length === 0) {
+          $('.tasks-tabs-nav li:first-child').addClass('active');
+        }
+        
+        $('.tasks-tabs-nav a').click(function(ev) {
           ev.preventDefault();
           // Check for active
           $('.tasks-tabs-nav li').removeClass('active');
@@ -94,17 +96,15 @@
           let currentTab = $(this).attr('href');
           $('.tasks-tabs-content>div').hide();
           $(currentTab).show();
-          console.log(currentTab);
           return false;
         });
       });
-      //end main function
     }));
   </script>
 </content>
 <content id="metadata" type="x-handlebars-metadata">
   {
-  "totalResults": 3
+    "totalResults": 3
   }
 </content>
 
@@ -166,12 +166,11 @@
       display: none;
     }
 
-    .cle {
-      display: block;
-      font-size: 0;
-      content: " ";
-      clear: both;
-      height: 0;
+    .cle display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
     }
 
     .clearfix {
@@ -1484,240 +1483,273 @@
     .ms-Grid {
       padding: 0px !important;
     }
+
+    .no-tasks {
+      margin: 20px;
+      display: flex;
+    }
+
+    .no-tasks .image-column {
+      width: 100%;
+      max-width: 42px;
+      margin-right: 20px;
+    }
+
+    .no-tasks .image-column img {
+      width: 100%;
+      height: auto;
+    }
+
+    .no-tasks .text-column {
+      color: #252423;
+      letter-spacing: .01em;
+
+      font-family: SegoeUI, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .no-tasks .text-column .title {
+      font-size: 1.15em;
+      line-height: 1.5em;
+    }
+
+    .no-tasks .text-column .instructions {
+      font-size: .9em;
+      line-height: 1.3em;
+    }
+
+    .no-tasks a.button {
+      margin-top: 20px;
+      font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      box-sizing: border-box;
+      border: 2px solid #309aa3;
+      display: inline-block;
+      text-decoration: none;
+      text-align: center;
+      padding: 0px 10px 0px 20px;
+      border-radius: 50px;
+      min-width: 80px;
+      min-height: 40px;
+      background-color: #309aa3;
+      color: rgb(255, 255, 255);
+      max-width: 100%;
+      vertical-align: top;
+      user-select: none;
+      line-height: 33px;
+    }
+
+    .no-tasks a.button:hover {
+      background-color: transparent;
+      color: #005b63;
+    }
+
+    .no-tasks a.button.secondary {
+      border: 2px solid #309aa3;
+      background-color: transparent;
+      color: #005b63;
+    }
+
+    .no-tasks a.button:hover.secondary {
+      background-color: #309aa3;
+      color: rgb(255, 255, 255);
+    }
+
+    .no-tasks a.button i {
+      vertical-align: middle;
+      font-size: 20px;
+      margin-left: 10px;
+      line-height: 30px;
+    }
   </style>
   <div class="valo-tasks compact ms-Grid" template-id="valo-rec-compact">
     <div>
       {{#if tplTitle}}
-      <span class="vm-wpTitle">{{tplTitle}}</span>
+        <span class="vm-wpTitle">{{tplTitle}}</span>
       {{/if}}
       {{#if paging}}
-      <span class="paging ms-font-xl">
-        <a id="prevPage" class="valo-wp__wp-title-bar__pagination-link valoPaginationPrevPage" href="javascript:;"><i
-            class="ms-Icon ms-Icon--ChevronLeft" aria-hidden="true"></i></a> <a id="nextPage"
-          class="valo-wp__wp-title-bar__pagination-link valoPaginationNextPage" href="javascript:;"><span></span> <i
-            class="ms-Icon ms-Icon--ChevronRight" aria-hidden="true"></i></a>
-      </span>
+        <span class="paging ms-font-xl">
+          <a id="prevPage" class="valo-wp__wp-title-bar__pagination-link valoPaginationPrevPage" href="javascript:;">
+            <i class="ms-Icon ms-Icon--ChevronLeft" aria-hidden="true"></i>
+          </a>
+          <a id="nextPage" class="valo-wp__wp-title-bar__pagination-link valoPaginationNextPage" href="javascript:;">
+            <i class="ms-Icon ms-Icon--ChevronRight" aria-hidden="true"></i>
+          </a>
+        </span>
       {{/if}}
     </div>
-
+    
     <div id="container">
       {{#with dsData}}
-      <header class="tasks-tabs-nav">
-        <ul>
-          <li class=""><a href="#{{print_id 'todo'}}">Todo{{tab_taskcount outlook.count}}</a></li>
-          <li class=""><a href="#{{print_id 'planner'}}">Planner{{tab_taskcount planner.count}}</a></li>
-          {{#has_tasks visma}}
-          <li class=""><a href="#{{print_id 'visma'}}">Visma{{tab_taskcount visma.count}}</a></li>
-          {{/has_tasks}}
-          <!-- PUBLIC 360 TASKS IS NOT IMPLEMENTED YET
-                          {{#has_tasks public360}}
-                              <li class=""><a href="#{{print_id 'public360'}}">Public 360{{tab_taskcount public360.count}}</a></li>
-                          {{/has_tasks}}
-                      -->
-
-        </ul>
-      </header>
-      <section class="tasks-tabs-content">
-        <div id="{{print_id 'todo'}}">
-          {{#with outlook}}
-          <div class="items-wrap">
-            {{#if tasks}}
-            <!--<div class="task-box-title">Oppgaver hentet fra To-Do: {{count}}</div>-->
-            <ul class="task-box-list">
-              {{#each tasks}}
-              <li class="task-box-listitem">
-                <a class="task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i To-Do" target="_blank">
-                  <div>
-                    <div class="task-box-listitem-content">
-                      {{title}}
-                    </div>
-                  </div>
-                  {{#if dueDateTime }}
-                  <div class="task-time-box">
-                    {{#if (ifeq dueDateTime 1)}}
-                    <span class="task-duedate-box green">
-                      <i class="ms-Icon ms-Icon--Calendar"></i>
-
-                      {{ moment dueDateTime format="MM/DD/YYYY"}}
-                    </span>
-                    {{/if}}
-                    {{#if (ifeq dueDateTime 0)}}
-                    <span class="task-duedate-box yellow">
-                      <i class="ms-Icon ms-Icon--Calendar"></i>
-
-                      {{ moment dueDateTime format="MM/DD/YYYY"}}
-                    </span>
-                    {{/if}}
-                    {{#if (ifeq dueDateTime -1)}}
-                    <span class="task-duedate-box red">
-                      <i class="ms-Icon ms-Icon--Calendar"></i>
-
-                      {{ moment dueDateTime format="MM/DD/YYYY"}}
-                    </span>
-                    {{/if}}
-                  </div>
-                  {{/if}}
-                </a>
-              </li>
-              {{/each}}
-              {{#eq count 0}}
-              <li class="task-box-listitem">
-                <a class="task-box-listitem-link" href="https://to-do.office.com/tasks/"
-                  title="Lag en ny oppgave i Gjør" target="_blank">
-                  <div class="task-box-listitem-content"
-                    style="color:#309aa3;font-weight:600;font-style:italic;font-size: 14px">
-                    <!--<i class="ms-Icon ms-Icon--ToDoLogoInverse" style="font-size: 20px;vertical-align: middle;"></i>-->
-                    Lag en ny oppgave i Todo
-                    <i class="ms-Icon ms-Icon--NavigateForward"
-                      style="vertical-align: middle;font-size: 20px;margin-left: 20px;line-height: 30px;"></i>
-                  </div>
-                </a>
-              </li>
-              {{/eq}}
-            </ul>
-            {{else}}
-            {{{log}}}
-            <!--<div class="task-box-title">Du har ingen gjenstående oppgaver i To-Do.</div>-->
-            <ul class="task-box-list">
-              <li class="task-box-listitem">
-                <a class="task-box-listitem-link" href="https://to-do.office.com/tasks/"
-                  title="Lag en ny oppgave i Gjør" target="_blank">
-                  <div class="task-box-listitem-content"
-                    style="color:#309aa3;font-weight:600;font-style:italic;font-size: 14px">
-                    <!--<i class="ms-Icon ms-Icon--ToDoLogoInverse" style="font-size: 20px;vertical-align: middle;"></i>-->
-                    Lag en ny oppgave i Todo
-                    <i class="ms-Icon ms-Icon--NavigateForward"
-                      style="vertical-align: middle;font-size: 20px;margin-left: 20px;line-height: 30px;"></i>
-                  </div>
-                </a>
-              </li>
-            </ul>
-            {{/if}}
-          </div>
-          {{/with}}
-        </div>
-        <div id="{{print_id 'planner'}}">
-          {{#with planner}}
-          <div class="items-wrap">
-            {{#if tasks}}
-            <!--<div class="task-box-title">Oppgaver hentet fra Planner: {{count}}</div>-->
-            <ul class="task-box-list">
-              {{#each tasks}}
-              <li class="task-box-listitem">
-                <a class="task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i Planner" target="_blank">
-                  <div>
-                    <div class="task-box-listitem-content">
-                      {{title}}
-
-                    </div>
-
-                    <div class="c100 p{{percentComplete}} position-right">
-                      <span>{{percentComplete}} %</span>
-                      <div class="slice">
-                        <div class="bar"></div>
-                        <div class="fill"></div>
-                      </div>
-                    </div>
-
-                  </div>
-                  {{#if dueDateTime }}
-                  <div class="task-time-box">
-                    {{#if (ifeq dueDateTime 1)}}
-                    <span class="task-duedate-box green">
-                      <i class="ms-Icon ms-Icon--Calendar"></i>
-
-                      {{ moment dueDateTime format="MM/DD/YYYY"}}
-                    </span>
-                    {{/if}}
-                    {{#if (ifeq dueDateTime 0)}}
-                    <span class="task-duedate-box yellow">
-                      <i class="ms-Icon ms-Icon--Calendar"></i>
-
-                      {{ moment dueDateTime format="MM/DD/YYYY"}}
-                    </span>
-                    {{/if}}
-                    {{#if (ifeq dueDateTime -1)}}
-                    <span class="task-duedate-box red">
-                      <i class="ms-Icon ms-Icon--Calendar"></i>
-
-                      {{ moment dueDateTime format="MM/DD/YYYY"}}
-                    </span>
-                    {{/if}}
-                  </div>
-                  {{/if}}
-                </a>
-                <!--{{#if dueDateTime}}<br/><span style="margin-left: 25px;" title='{{moment dueDateTime lang="nb" format="DD.MM.YYYY HH:mm"}}'>Forfaller {{moment dueDateTime lang="nb" fromNow=null humanize=null}}</span>{{/if}}
-                                      {{#if createdDateTime}}<br/><span style="margin-left: 25px;" title='{{moment createdDateTime lang="nb" format="DD.MM.YYYY HH:mm"}}'>Opprettet {{moment createdDateTime lang="nb" fromNow=null humanize=null}}</span>{{/if}}-->
-              </li>
-              {{/each}}
-              {{#eq count 0}}
-              <li class="task-box-listitem">
-                <a class="task-box-listitem-link"
-                  href="https://tasks.office.com/valooneplace.onmicrosoft.com/en/Home/Planner/"
-                  title="Lag ny oppgave i Planner" target="_blank">
-                  <div class="task-box-listitem-content"
-                    style="color:#005260;font-weight:600;font-style:italic;font-size: 14px">
-                    <!--<i class="ms-Icon ms-Icon--PlannerLogo ms-svg-Icon" style="font-size: 20px;"></i>-->
-                    Lag ny oppgave i Planner
-                    <i class="ms-Icon ms-Icon--NavigateForward ms-svg-Icon"
-                      style="vertical-align: middle;font-size: 20px;margin-left: 20px;line-height: 30px;"></i>
-                  </div>
-                </a>
-              </li>
-              {{/eq}}
-            </ul>
-            {{else}}
-            {{{log}}}
-            <!--<div class="task-box-title">Du har ingen gjenstående oppgaver i Planner.</div>-->
-            <ul class="task-box-list">
-              <li class="task-box-listitem">
-                <a class="task-box-listitem-link"
-                  href="https://tasks.office.com/valooneplace.onmicrosoft.com/en/Home/Planner/"
-                  title="Lag ny oppgave i Planner" target="_blank">
-                  <div class="task-box-listitem-content"
-                    style="color:#005260;font-weight:600;font-style:italic;font-size: 14px">
-                    <!--<i class="ms-Icon ms-Icon--PlannerLogo ms-svg-Icon" style="font-size: 20px;"></i>-->
-                    Lag ny oppgave i Planner
-                    <i class="ms-Icon ms-Icon--NavigateForward ms-svg-Icon"
-                      style="vertical-align: middle;font-size: 20px;margin-left: 20px;line-height: 30px;"></i>
-                  </div>
-                </a>
-              </li>
-            </ul>
-            {{/if}}
-          </div>
-          {{/with}}
-        </div>
-        <div id="{{print_id 'visma'}}">
-          {{#with visma}}
-          <div class="items-wrap">
-            {{#if tasks}}
-            <!--<div class="task-box-title">Oppgaver hentet fra Visma: {{count}}</div>-->
-            <ul class="task-box-list">
-              {{#each tasks}}
-              <li class="task-box-listitem">
-                <a class="task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i Visma" target="_blank">
-                  <div class="task-box-listitem-content">{{visma_tasktitle this}}</div>
-                </a>
-              </li>
-              {{/each}}
-            </ul>
-            {{else}}
-            <div class="task-box-title">Du har ingen gjenstående oppgaver i Visma. </div>
-            {{/if}}
-          </div>
-          {{/with}}
-        </div>
-        <!-- PUBLIC 360 TASKS IS NOT IMPLEMENTED YET
-                      <div id="{{print_id 'public360'}}">
-                          <div class="items-wrap">
-                              {{#each public360.tasks}}
-                                  {{title}}<br/>
-                              {{/each}}
+        <header class="tasks-tabs-nav">
+          <ul>
+            <li class=""><a href="#{{print_id 'todo'}}">To Do{{tab_taskcount outlook.count}}</a></li>
+            <li class=""><a href="#{{print_id 'planner'}}">Planner{{tab_taskcount planner.count}}</a></li>
+            {{#has_tasks visma}}
+                <li class=""><a href="#{{print_id 'visma'}}">Visma{{tab_taskcount visma.count}}</a></li>
+            {{/has_tasks}}
+            <!-- PUBLIC 360 TASKS IS NOT IMPLEMENTED YET
+                {{#has_tasks public360}}
+                    <li class=""><a href="#{{print_id 'public360'}}">Public 360{{tab_taskcount public360.count}}</a></li>
+                {{/has_tasks}}
+            -->
+          </ul>
+        </header>
+        <section class="tasks-tabs-content">
+            <div id="{{print_id 'todo'}}">
+              {{#with outlook}}
+                <div class="items-wrap">
+                  <ul class="task-box-list">
+                    {{#each tasks}}
+                      <li class="task-box-listitem">
+                        <a class="task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i To-Do"  target="_blank">
+                          <div class="task-box-listitem-content">
+                            {{title}}
                           </div>
+                          {{#if dueDateTime }}
+                            <div class="task-time-box">
+                              {{#if (ifeq dueDateTime 1)}} 
+                                <span class="task-duedate-box green">
+                                  <i class="ms-Icon ms-Icon--Calendar"></i>
+                                  {{ moment dueDateTime format="MM/DD/YYYY"}}
+                                </span>
+                              {{/if}}
+                              {{#if (ifeq dueDateTime 0)}} 
+                                <span class="task-duedate-box yellow">
+                                  <i class="ms-Icon ms-Icon--Calendar"></i>
+                                  {{ moment dueDateTime format="MM/DD/YYYY"}}
+                                </span>
+                              {{/if}}
+                            {{#if (ifeq dueDateTime -1)}} 
+                              <span class="task-duedate-box red">
+                                <i class="ms-Icon ms-Icon--Calendar"></i>
+                                {{ moment dueDateTime format="MM/DD/YYYY"}}
+                              </span>
+                            {{/if}}
+                          </div>
+                        {{/if}}
+                        </a>
+                      </li>
+                    {{else}}
+                      <div class="no-tasks">
+                        <div class="image-column">
+                          <img src="data:image/svg+xml;base64,PHN2ZyBkYXRhLW5hbWU9IkxheWVyIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNNS4xMSAxMC4zMUwuMzYgMTUuMDZhMS4zMyAxLjMzIDAgMDAwIDEuODhMNyAyMy41N2w2LjYzLTYuNjNMNyAxMC4zMWExLjMzIDEuMzMgMCAwMC0xLjg5IDB6IiBmaWxsPSIjMTg1YWJkIi8+PHBhdGggZD0iTTMxLjY0IDguNDNsLTQuNzUtNC43NWExLjMzIDEuMzMgMCAwMC0xLjg4IDBsLTUuNjkgNS42OUwxMi42OCAxNiA3IDIxLjY5YTEuMzMgMS4zMyAwIDAwMCAxLjg4bDQuNzUgNC43NWExLjMzIDEuMzMgMCAwMDEuODggMGw1LjctNS42OUwyNiAxNmw1LjY5LTUuNjlhMS4zMyAxLjMzIDAgMDAtLjA1LTEuODh6IiBmaWxsPSIjNDFhNWVlIi8+PHBhdGggZmlsbD0ibm9uZSIgZD0iTTAgMGgzMnYzMkgweiIvPjwvc3ZnPg==" alt="Microsoft To Do logo" aria-hidden="true" />
+                        </div>
+                        <div class="text-column">
+                          <div class="title">
+                            Få orden på sakene dine!
+                          </div>
+                          <div class="instructions">
+                            Med Microsoft To Do kan du lage lister, skrive ned oppgaver og ting du må huske å gjøre. Et perfekt verktøy for å holde oversikt i en hektisk hverdag!
+
+                            <a href="https://to-do.office.com/tasks" target="_blank" class="button secondary" style="margin-top: 35px;">
+                              Kom i gang med To Do
+                              <i class="ms-Icon ms-Icon--NavigateForward"></i>
+                            </a>
+                          </div>
+                        </div>
                       </div>
-                  -->
-      </section>
+                    {{/each}}
+                    </ul>
+                  </div>
+                {{/with}}
+            </div>
+            <div id="{{print_id 'planner'}}">
+              {{#with planner}}
+                <div class="items-wrap">
+                  <ul  class="task-box-list">
+                  {{#each tasks}}
+                    <li class="task-box-listitem">
+                      <a class= "task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i Planner" target="_blank">
+                        <div>
+                          <div class="task-box-listitem-content">
+                          {{title}}
+                          </div>
+                          
+                          <div class="c100 p{{percentComplete}} position-right">
+                            <span>{{percentComplete}} %</span>
+                            <div class="slice"><div class="bar"></div><div class="fill"></div></div>
+                          </div>
+                          
+                        </div>
+                        {{#if dueDateTime }}
+                          <div class="task-time-box">
+                            {{#if (ifeq dueDateTime 1)}} 
+                              <span class="task-duedate-box green">
+                                <i class="ms-Icon ms-Icon--Calendar"></i>
+                                {{ moment dueDateTime format="MM/DD/YYYY"}}
+                              </span>
+                              {{/if}}
+                              {{#if (ifeq dueDateTime 0)}} 
+                              <span class="task-duedate-box yellow">
+                                <i class="ms-Icon ms-Icon--Calendar"></i>
+                                {{ moment dueDateTime format="MM/DD/YYYY"}}
+                              </span>
+                            {{/if}}
+                            {{#if (ifeq dueDateTime -1)}} 
+                              <span class="task-duedate-box red">
+                                <i class="ms-Icon ms-Icon--Calendar"></i>
+                                {{ moment dueDateTime format="MM/DD/YYYY"}}
+                              </span>
+                            {{/if}}
+                          </div>
+                        {{/if}}
+                      </a>
+                    </li>
+                  {{else}}
+                    <div class="no-tasks">
+                      <div class="image-column">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0iTTEyIDI4LjdWMTRINHYxNC43YzAgLjcuNyAxLjMgMS41IDEuM2g1Yy44IDAgMS41LS42IDEuNS0xLjN6IiBmaWxsPSIjMTg1YzM3Ii8+PHBhdGggZD0iTTI2LjUgMThIMjBsLTMuOS03LjZMMjAgMmg2LjVjLjggMCAxLjUuNiAxLjUgMS4zdjEzLjNjMCAuOC0uNyAxLjQtMS41IDEuNHoiIGZpbGw9IiMzM2M0ODEiLz48cGF0aCBkPSJNMjAgMkg1LjNDNC42IDIgNCAyLjYgNCAzLjNWMTVoOHY5aDYuN2MuNyAwIDEuMy0uNiAxLjMtMS4zVjJ6IiBmaWxsPSIjMTA3YzQxIi8+PHBhdGggZmlsbD0iIzIxYTM2NiIgZD0iTTEyIDJoOHYxMGgtOHoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDMydjMySDB6Ii8+PC9zdmc+" alt="Microsoft To Do logo" aria-hidden="true" />
+                      </div>
+                      <div class="text-column">
+                        <div class="title">
+                          Ingen oppgaver funnet! 🎉
+                        </div>
+                        <div class="instructions">
+                          Planner er et enkelt verktøy for planlegging, koordinering og oppgavefordeling som er enkelt å komme i gang med. Det er i tillegg helintegrert i Teams, noe som gjør det lett tilgjengelig i en digital hverdag. 👌🏼 
+
+                          <a href="https://to-do.office.com/tasks" target="_blank" class="button secondary" style="margin-top: 20px;">
+                            Kom i gang med Planner
+                            <i class="ms-Icon ms-Icon--NavigateForward"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  {{/each}}
+                </div>
+              {{/with}}
+            </div>
+            <div id="{{print_id 'visma'}}">
+              {{#with visma}}
+                <div class="items-wrap">
+                  {{#if tasks}}
+                    <ul class="task-box-list">
+                      {{#each tasks}}
+                        <li class="task-box-listitem">
+                          <a class="task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i Visma" target="_blank">
+                            <div class="task-box-listitem-content">{{visma_tasktitle this}}</div>
+                          </a>
+                        </li>
+                      {{/each}}
+                    </ul>
+                  {{else}}
+                    <div class="task-box-title">Du har ingen gjenstående oppgaver i Visma. </div>
+                  {{/if}}
+                </div>
+              {{/with}}
+            </div>
+            <!-- PUBLIC 360 TASKS IS NOT IMPLEMENTED YET
+              <div id="{{print_id 'public360'}}">
+                <div class="items-wrap">
+                  {{#each public360.tasks}}
+                    {{title}}
+                  {{/each}}
+                </div>
+              </div>
+            -->
+        </section>     
       {{/with}}
     </div>
 
@@ -1725,13 +1757,11 @@
   </div>
 </content>
 
-<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
-
-<head>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"><head>
   <!--[if gte mso 9]><xml>
-<mso:CustomDocumentProperties>
-<mso:TemplateTitle msdt:dt="string">Task tabs</mso:TemplateTitle>
-<mso:DataSource msdt:dt="string">MicrosoftGraphDataSource</mso:DataSource>
-</mso:CustomDocumentProperties>
-</xml><![endif]-->
+  <mso:CustomDocumentProperties>
+  <mso:TemplateTitle msdt:dt="string">Task tabs</mso:TemplateTitle>
+  <mso:DataSource msdt:dt="string">MicrosoftGraphDataSource</mso:DataSource>
+  </mso:CustomDocumentProperties>
+  </xml><![endif]-->
 </head>
