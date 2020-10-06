@@ -90,7 +90,10 @@
       console.log($);
       //begin main function
       $(document).ready(function () {
-        $('.tabs-nav li:first-child').addClass('active');
+        if ($("div.valo-events .tabs-nav li.active").length === 0) {
+          $('.tabs-nav li:first-child').addClass('active');
+        }
+
         $('.tabs-nav a').click(function (ev) {
           ev.preventDefault();
           // Check for active
