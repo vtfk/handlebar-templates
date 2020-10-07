@@ -107,6 +107,11 @@
       $(document).ready(function () {
         if($("div.valo-tasks .tasks-tabs-nav li.active").length === 0) {
           $('.tasks-tabs-nav li:first-child').addClass('active');
+          
+          // Make sure the first tab is selected and shown
+          let tabId = $($('.tasks-tabs-nav li')[0].firstChild).attr("href")
+          $('.tasks-tabs-content>div').hide();
+          $(tabId).show();
         }
         
         $('.tasks-tabs-nav a').click(function(ev) {
@@ -1615,7 +1620,7 @@
           </ul>
         </header>
         <section class="tasks-tabs-content">
-            <div id="{{print_id 'todo'}}">
+            <div id="{{print_id 'outlook'}}" style="display: none;">
               {{#with outlook}}
                 <div class="items-wrap">
                   <ul class="task-box-list">
@@ -1673,7 +1678,7 @@
                   </div>
                 {{/with}}
             </div>
-            <div id="{{print_id 'planner'}}">
+            <div id="{{print_id 'planner'}}" style="display: none;">
               {{#with planner}}
                 <div class="items-wrap">
                   <ul  class="task-box-list">
@@ -1738,7 +1743,7 @@
                 </div>
               {{/with}}
             </div>
-            <div id="{{print_id 'visma'}}">
+            <div id="{{print_id 'visma'}}" style="display: none;">
               {{#with visma}}
                 <div class="items-wrap">
                   {{#if tasks}}
