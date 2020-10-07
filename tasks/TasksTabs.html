@@ -29,6 +29,29 @@
       return system && (system.tasks !== undefined && system.count !== undefined);
     });
 
+    Handlebars.registerHelper('get_sorted_task_tabs', function (tasks) {
+      const tabs = []
+      for (const system in tasks) {
+        const task = tasks[system]
+        if (!task || !task.tabName) {
+          continue
+        }
+        if (!task.showEmptyTab && task.count === 0) {
+          continue
+        }
+
+        tabs.push({
+          id: system,
+          name: task.tabName,
+          count: task.count
+        })
+      }
+
+      return tabs.sort(function (a, b) {
+        return b.count - a.count
+      })
+    });
+
     Handlebars.registerHelper('has_tasks', function (system, options) {
       if (system && system.count > 0) {
           return options.fn(this)
@@ -1586,16 +1609,9 @@
       {{#with dsData}}
         <header class="tasks-tabs-nav">
           <ul>
-            <li class=""><a href="#{{print_id 'todo'}}">To Do{{tab_taskcount outlook.count}}</a></li>
-            <li class=""><a href="#{{print_id 'planner'}}">Planner{{tab_taskcount planner.count}}</a></li>
-            {{#has_tasks visma}}
-                <li class=""><a href="#{{print_id 'visma'}}">Visma{{tab_taskcount visma.count}}</a></li>
-            {{/has_tasks}}
-            <!-- PUBLIC 360 TASKS IS NOT IMPLEMENTED YET
-                {{#has_tasks public360}}
-                    <li class=""><a href="#{{print_id 'public360'}}">Public 360{{tab_taskcount public360.count}}</a></li>
-                {{/has_tasks}}
-            -->
+            {{#each (get_sorted_task_tabs this)}}
+              <li class=""><a href="#{{print_id id}}">{{name}}{{tab_taskcount count}}</a></li>
+            {{/each}}
           </ul>
         </header>
         <section class="tasks-tabs-content">
