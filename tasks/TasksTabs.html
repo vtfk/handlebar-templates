@@ -29,6 +29,28 @@
       return system && (system.tasks !== undefined && system.count !== undefined);
     });
 
+
+    Handlebars.registerHelper('has_tasks', function (system, options) {
+      if (system && system.count > 0) {
+          return options.fn(this)
+      }
+      return options.inverse(this);
+    });
+
+    Handlebars.registerHelper('tab_taskcount', function (count) {
+      return parseInt(count) > 0 ? " (" + count + ")" : "";
+    });
+
+    Handlebars.registerHelper('visma_tasktitle', function (task) {
+      const { title, count } = task;
+      return parseInt(count) > 1 ? `${count} ${title.charAt(0).toLowerCase() + title.slice(1)}` : title;
+    });
+
+    Handlebars.registerHelper('print_id', function (tabName) {
+      var res = tabName.split(" ");
+      return res.join("") + "-tasks";
+    });
+
     Handlebars.registerHelper('get_sorted_task_tabs', function (tasks) {
       const tabs = []
       for (const system in tasks) {
@@ -50,27 +72,6 @@
       return tabs.sort(function (a, b) {
         return b.count - a.count
       })
-    });
-
-    Handlebars.registerHelper('has_tasks', function (system, options) {
-      if (system && system.count > 0) {
-          return options.fn(this)
-      }
-      return options.inverse(this);
-    });
-
-    Handlebars.registerHelper('tab_taskcount', function (count) {
-      return parseInt(count) > 0 ? " (" + count + ")" : "";
-    });
-
-    Handlebars.registerHelper('visma_tasktitle', function (task) {
-      const { title, number } = task
-      return parseInt(number) > 1 ? `${number} ${title.toLowerCase()}` : title;
-    });
-
-    Handlebars.registerHelper('print_id', function (tabName) {
-      var res = tabName.split(" ");
-      return res.join("") + "-tasks";
     });
 
     (function (url, position, callback) {
@@ -1568,6 +1569,9 @@
       vertical-align: top;
       user-select: none;
       line-height: 33px;
+
+      display: block;
+      width: fit-content;
     }
 
     .no-tasks a.button:hover {
