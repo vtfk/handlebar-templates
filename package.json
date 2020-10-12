@@ -1,6 +1,6 @@
 {
   "name": "valo-handlebar-templates",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Templates for the \"Valo - Universal\" web part used on our intranet, ___Innsida___.",
   "repository": {
     "type": "git",
