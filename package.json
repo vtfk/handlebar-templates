@@ -1,0 +1,15 @@
+{
+  "name": "valo-handlebar-templates",
+  "version": "0.1.0",
+  "description": "Templates for the \"Valo - Universal\" web part used on our intranet, ___Innsida___.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vtfk/valo-handlebar-templates.git"
+  },
+  "author": "Mats Andreassen <matsand@live.no> (https://github.com/matsand)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vtfk/valo-handlebar-templates/issues"
+  },
+  "homepage": "https://github.com/vtfk/valo-handlebar-templates#readme"
+}
