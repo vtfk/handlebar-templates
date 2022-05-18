@@ -1,4 +1,4 @@
-<content id="customHelpers" type="x-handlebars-helpers">
+<content id="customHelpers" type="x-inject">
   <script>
     function datediffFromToday (date) {
       var dt2 = new Date(date);
@@ -137,7 +137,7 @@
 </content>
 
 
-<content id="template" type="x-handlebars-template">
+<content id="template" type="x-template">
   <style>
     /*tabs new */
     .tasks-tabs-nav ul {
@@ -1614,171 +1614,167 @@
     </div>
     
     <div id="container">
-      {{#with dsData}}
-        <header class="tasks-tabs-nav">
-          <ul>
-            {{#each (get_sorted_task_tabs this)}}
-              <li class=""><a href="#{{print_id id}}">{{name}}{{tab_taskcount count}}</a></li>
-            {{/each}}
-          </ul>
-        </header>
-        <section class="tasks-tabs-content">
-            <div id="{{print_id 'outlook'}}" style="display: none;">
-              {{#with outlook}}
-                <div class="items-wrap">
-                  <ul class="task-box-list">
-                    {{#each tasks}}
-                      <li class="task-box-listitem">
-                        <a class="task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i To-Do"  target="_blank">
-                          <div class="task-box-listitem-content">
-                            {{title}}
-                          </div>
-                          {{#if dueDateTime }}
-                            <div class="task-time-box">
-                              {{#if (ifeq dueDateTime 1)}} 
-                                <span class="task-duedate-box green">
-                                  <i class="ms-Icon ms-Icon--Calendar"></i>
-                                  {{ moment dueDateTime format="MM/DD/YYYY"}}
-                                </span>
-                              {{/if}}
-                              {{#if (ifeq dueDateTime 0)}} 
-                                <span class="task-duedate-box yellow">
-                                  <i class="ms-Icon ms-Icon--Calendar"></i>
-                                  {{ moment dueDateTime format="MM/DD/YYYY"}}
-                                </span>
-                              {{/if}}
-                            {{#if (ifeq dueDateTime -1)}} 
-                              <span class="task-duedate-box red">
-                                <i class="ms-Icon ms-Icon--Calendar"></i>
-                                {{ moment dueDateTime format="MM/DD/YYYY"}}
-                              </span>
-                            {{/if}}
-                          </div>
-                        {{/if}}
-                        </a>
-                      </li>
-                    {{else}}
-                      <div class="no-tasks">
-                        <div class="image-column">
-                          <img src="data:image/svg+xml;base64,PHN2ZyBkYXRhLW5hbWU9IkxheWVyIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNNS4xMSAxMC4zMUwuMzYgMTUuMDZhMS4zMyAxLjMzIDAgMDAwIDEuODhMNyAyMy41N2w2LjYzLTYuNjNMNyAxMC4zMWExLjMzIDEuMzMgMCAwMC0xLjg5IDB6IiBmaWxsPSIjMTg1YWJkIi8+PHBhdGggZD0iTTMxLjY0IDguNDNsLTQuNzUtNC43NWExLjMzIDEuMzMgMCAwMC0xLjg4IDBsLTUuNjkgNS42OUwxMi42OCAxNiA3IDIxLjY5YTEuMzMgMS4zMyAwIDAwMCAxLjg4bDQuNzUgNC43NWExLjMzIDEuMzMgMCAwMDEuODggMGw1LjctNS42OUwyNiAxNmw1LjY5LTUuNjlhMS4zMyAxLjMzIDAgMDAtLjA1LTEuODh6IiBmaWxsPSIjNDFhNWVlIi8+PHBhdGggZmlsbD0ibm9uZSIgZD0iTTAgMGgzMnYzMkgweiIvPjwvc3ZnPg==" alt="Microsoft To Do logo" aria-hidden="true" />
-                        </div>
-                        <div class="text-column">
-                          <div class="title">
-                            Få orden på oppgavene dine!
-                          </div>
-                          <div class="instructions">
-                            Med Microsoft To Do lager du lister og skriver ned oppgaver du må huske å gjøre. Et perfekt verktøy for å holde oversikt i en hektisk hverdag! 📝
-
-                            <a href="https://to-do.office.com/tasks?auth=2" target="_blank" class="button secondary" style="margin-top: 19px;">
-                              Kom i gang med To Do
-                              <i class="ms-Icon ms-Icon--NavigateForward"></i>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    {{/each}}
-                    </ul>
-                  </div>
-                {{/with}}
-            </div>
-            <div id="{{print_id 'planner'}}" style="display: none;">
-              {{#with planner}}
-                <div class="items-wrap">
-                  <ul  class="task-box-list">
+      <header class="tasks-tabs-nav">
+        <ul>
+          {{#each (get_sorted_task_tabs this)}}
+            <li class=""><a href="#{{print_id id}}">{{name}}{{tab_taskcount count}}</a></li>
+          {{/each}}
+        </ul>
+      </header>
+      <section class="tasks-tabs-content">
+          <div id="{{print_id 'outlook'}}" style="display: none;">
+            {{#with outlook}}
+              <div class="items-wrap">
+                <ul class="task-box-list">
                   {{#each tasks}}
                     <li class="task-box-listitem">
-                      <a class= "task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i Planner" target="_blank">
-                        <div>
-                          <div class="task-box-listitem-content">
+                      <a class="task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i To-Do"  target="_blank">
+                        <div class="task-box-listitem-content">
                           {{title}}
-                          </div>
-                          
-                          <div class="c100 p{{percentComplete}} position-right">
-                            <span>{{percentComplete}} %</span>
-                            <div class="slice"><div class="bar"></div><div class="fill"></div></div>
-                          </div>
-                          
                         </div>
                         {{#if dueDateTime }}
                           <div class="task-time-box">
                             {{#if (ifeq dueDateTime 1)}} 
                               <span class="task-duedate-box green">
                                 <i class="ms-Icon ms-Icon--Calendar"></i>
-                                {{ moment dueDateTime format="MM/DD/YYYY"}}
+                                {{ moment dueDateTime format="DD/MM/YYYY"}}
                               </span>
-                              {{/if}}
-                              {{#if (ifeq dueDateTime 0)}} 
+                            {{/if}}
+                            {{#if (ifeq dueDateTime 0)}} 
                               <span class="task-duedate-box yellow">
                                 <i class="ms-Icon ms-Icon--Calendar"></i>
-                                {{ moment dueDateTime format="MM/DD/YYYY"}}
+                                {{ moment dueDateTime format="DD/MM/YYYY"}}
                               </span>
                             {{/if}}
-                            {{#if (ifeq dueDateTime -1)}} 
-                              <span class="task-duedate-box red">
-                                <i class="ms-Icon ms-Icon--Calendar"></i>
-                                {{ moment dueDateTime format="MM/DD/YYYY"}}
-                              </span>
-                            {{/if}}
-                          </div>
-                        {{/if}}
+                          {{#if (ifeq dueDateTime -1)}} 
+                            <span class="task-duedate-box red">
+                              <i class="ms-Icon ms-Icon--Calendar"></i>
+                              {{ moment dueDateTime format="DD/MM/YYYY"}}
+                            </span>
+                          {{/if}}
+                        </div>
+                      {{/if}}
                       </a>
                     </li>
                   {{else}}
                     <div class="no-tasks">
                       <div class="image-column">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0iTTEyIDI4LjdWMTRINHYxNC43YzAgLjcuNyAxLjMgMS41IDEuM2g1Yy44IDAgMS41LS42IDEuNS0xLjN6IiBmaWxsPSIjMTg1YzM3Ii8+PHBhdGggZD0iTTI2LjUgMThIMjBsLTMuOS03LjZMMjAgMmg2LjVjLjggMCAxLjUuNiAxLjUgMS4zdjEzLjNjMCAuOC0uNyAxLjQtMS41IDEuNHoiIGZpbGw9IiMzM2M0ODEiLz48cGF0aCBkPSJNMjAgMkg1LjNDNC42IDIgNCAyLjYgNCAzLjNWMTVoOHY5aDYuN2MuNyAwIDEuMy0uNiAxLjMtMS4zVjJ6IiBmaWxsPSIjMTA3YzQxIi8+PHBhdGggZmlsbD0iIzIxYTM2NiIgZD0iTTEyIDJoOHYxMGgtOHoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDMydjMySDB6Ii8+PC9zdmc+" alt="Microsoft To Do logo" aria-hidden="true" />
+                        <img src="data:image/svg+xml;base64,PHN2ZyBkYXRhLW5hbWU9IkxheWVyIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNNS4xMSAxMC4zMUwuMzYgMTUuMDZhMS4zMyAxLjMzIDAgMDAwIDEuODhMNyAyMy41N2w2LjYzLTYuNjNMNyAxMC4zMWExLjMzIDEuMzMgMCAwMC0xLjg5IDB6IiBmaWxsPSIjMTg1YWJkIi8+PHBhdGggZD0iTTMxLjY0IDguNDNsLTQuNzUtNC43NWExLjMzIDEuMzMgMCAwMC0xLjg4IDBsLTUuNjkgNS42OUwxMi42OCAxNiA3IDIxLjY5YTEuMzMgMS4zMyAwIDAwMCAxLjg4bDQuNzUgNC43NWExLjMzIDEuMzMgMCAwMDEuODggMGw1LjctNS42OUwyNiAxNmw1LjY5LTUuNjlhMS4zMyAxLjMzIDAgMDAtLjA1LTEuODh6IiBmaWxsPSIjNDFhNWVlIi8+PHBhdGggZmlsbD0ibm9uZSIgZD0iTTAgMGgzMnYzMkgweiIvPjwvc3ZnPg==" alt="Microsoft To Do logo" aria-hidden="true" />
                       </div>
                       <div class="text-column">
                         <div class="title">
-                          Ingen oppgaver funnet! 🎉
+                          Få orden på oppgavene dine!
                         </div>
                         <div class="instructions">
-                          Planner er et enkelt verktøy du kan bruke til å planlegge, koordinere og fordele oppgaver. Det er i tillegg integrert i Teams, noe som gjør verktøyet lett tilgjengelig i en digital hverdag. 👌🏼 
+                          Med Microsoft To Do lager du lister og skriver ned oppgaver du må huske å gjøre. Et perfekt verktøy for å holde oversikt i en hektisk hverdag! 📝
 
-                          <a href="https://tasks.office.com/?auth_pvr=OrgId&mkt=nb-NO" target="_blank" class="button secondary" style="margin-top: 20px;">
-                            Kom i gang med Planner
+                          <a href="https://to-do.office.com/tasks?auth=2" target="_blank" class="button secondary" style="margin-top: 19px;">
+                            Kom i gang med To Do
                             <i class="ms-Icon ms-Icon--NavigateForward"></i>
                           </a>
                         </div>
                       </div>
                     </div>
                   {{/each}}
+                  </ul>
                 </div>
               {{/with}}
-            </div>
-            <div id="{{print_id 'visma'}}" style="display: none;">
-              {{#with visma}}
-                <div class="items-wrap">
-                  {{#if tasks}}
-                    <ul class="task-box-list">
-                      {{#each tasks}}
-                        <li class="task-box-listitem">
-                          <a class="task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i Visma" target="_blank">
-                            <div class="task-box-listitem-content">{{visma_tasktitle this}}</div>
-                          </a>
-                        </li>
-                      {{/each}}
-                    </ul>
-                  {{else}}
-                    <div class="task-box-title">Du har ingen gjenstående oppgaver i Visma. </div>
-                  {{/if}}
-                </div>
-              {{/with}}
-            </div>
-            <!-- PUBLIC 360 TASKS IS NOT IMPLEMENTED YET
-              <div id="{{print_id 'public360'}}">
-                <div class="items-wrap">
-                  {{#each public360.tasks}}
-                    {{title}}
-                  {{/each}}
-                </div>
-              </div>
-            -->
-        </section>     
-      {{/with}}
-    </div>
+          </div>
+          <div id="{{print_id 'planner'}}" style="display: none;">
+            {{#with planner}}
+              <div class="items-wrap">
+                <ul  class="task-box-list">
+                {{#each tasks}}
+                  <li class="task-box-listitem">
+                    <a class= "task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i Planner" target="_blank">
+                      <div>
+                        <div class="task-box-listitem-content">
+                        {{title}}
+                        </div>
+                        
+                        <div class="c100 p{{percentComplete}} position-right">
+                          <span>{{percentComplete}} %</span>
+                          <div class="slice"><div class="bar"></div><div class="fill"></div></div>
+                        </div>
+                        
+                      </div>
+                      {{#if dueDateTime }}
+                        <div class="task-time-box">
+                          {{#if (ifeq dueDateTime 1)}} 
+                            <span class="task-duedate-box green">
+                              <i class="ms-Icon ms-Icon--Calendar"></i>
+                              {{ moment dueDateTime format="DD/MM/YYYY"}}
+                            </span>
+                            {{/if}}
+                            {{#if (ifeq dueDateTime 0)}} 
+                            <span class="task-duedate-box yellow">
+                              <i class="ms-Icon ms-Icon--Calendar"></i>
+                              {{ moment dueDateTime format="DD/MM/YYYY"}}
+                            </span>
+                          {{/if}}
+                          {{#if (ifeq dueDateTime -1)}} 
+                            <span class="task-duedate-box red">
+                              <i class="ms-Icon ms-Icon--Calendar"></i>
+                              {{ moment dueDateTime format="DD/MM/YYYY"}}
+                            </span>
+                          {{/if}}
+                        </div>
+                      {{/if}}
+                    </a>
+                  </li>
+                {{else}}
+                  <div class="no-tasks">
+                    <div class="image-column">
+                      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0iTTEyIDI4LjdWMTRINHYxNC43YzAgLjcuNyAxLjMgMS41IDEuM2g1Yy44IDAgMS41LS42IDEuNS0xLjN6IiBmaWxsPSIjMTg1YzM3Ii8+PHBhdGggZD0iTTI2LjUgMThIMjBsLTMuOS03LjZMMjAgMmg2LjVjLjggMCAxLjUuNiAxLjUgMS4zdjEzLjNjMCAuOC0uNyAxLjQtMS41IDEuNHoiIGZpbGw9IiMzM2M0ODEiLz48cGF0aCBkPSJNMjAgMkg1LjNDNC42IDIgNCAyLjYgNCAzLjNWMTVoOHY5aDYuN2MuNyAwIDEuMy0uNiAxLjMtMS4zVjJ6IiBmaWxsPSIjMTA3YzQxIi8+PHBhdGggZmlsbD0iIzIxYTM2NiIgZD0iTTEyIDJoOHYxMGgtOHoiLz48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDMydjMySDB6Ii8+PC9zdmc+" alt="Microsoft To Do logo" aria-hidden="true" />
+                    </div>
+                    <div class="text-column">
+                      <div class="title">
+                        Ingen oppgaver funnet! 🎉
+                      </div>
+                      <div class="instructions">
+                        Planner er et enkelt verktøy du kan bruke til å planlegge, koordinere og fordele oppgaver. Det er i tillegg integrert i Teams, noe som gjør verktøyet lett tilgjengelig i en digital hverdag. 👌🏼 
 
-    {{ log dsData }}
+                        <a href="https://tasks.office.com/?auth_pvr=OrgId&mkt=nb-NO" target="_blank" class="button secondary" style="margin-top: 20px;">
+                          Kom i gang med Planner
+                          <i class="ms-Icon ms-Icon--NavigateForward"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                {{/each}}
+              </div>
+            {{/with}}
+          </div>
+          <div id="{{print_id 'visma'}}" style="display: none;">
+            {{#with visma}}
+              <div class="items-wrap">
+                {{#if tasks}}
+                  <ul class="task-box-list">
+                    {{#each tasks}}
+                      <li class="task-box-listitem">
+                        <a class="task-box-listitem-link" href="{{url}}" title="Åpne oppgaven i Visma" target="_blank">
+                          <div class="task-box-listitem-content">{{visma_tasktitle this}}</div>
+                        </a>
+                      </li>
+                    {{/each}}
+                  </ul>
+                {{else}}
+                  <div class="task-box-title">Du har ingen gjenstående oppgaver i Visma. </div>
+                {{/if}}
+              </div>
+            {{/with}}
+          </div>
+          <!-- PUBLIC 360 TASKS IS NOT IMPLEMENTED YET
+            <div id="{{print_id 'public360'}}">
+              <div class="items-wrap">
+                {{#each public360.tasks}}
+                  {{title}}
+                {{/each}}
+              </div>
+            </div>
+          -->
+      </section>
+    </div>
   </div>
 </content>
 
