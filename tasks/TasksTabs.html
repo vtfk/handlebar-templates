@@ -1,4 +1,4 @@
-<content id="customHelpers" type="x-inject">
+<content type="x-inject">
   <script>
     function datediffFromToday (date) {
       var dt2 = new Date(date);
@@ -19,14 +19,6 @@
       var dateCompare = datediffFromToday(date);
       if (dateCompare == value) { return true; }
       return false;
-    });
-
-    Handlebars.registerHelper('customlog', function (dsData) {
-      console.log('dsdata', dsData);
-    });
-
-    Handlebars.registerHelper('is_system', function (system) {
-      return system && (system.tasks !== undefined && system.count !== undefined);
     });
 
     Handlebars.registerHelper('get_sorted_task_tabs', function (tasks) {
@@ -50,13 +42,6 @@
       return tabs.sort(function (a, b) {
         return b.count - a.count
       })
-    });
-
-    Handlebars.registerHelper('has_tasks', function (system, options) {
-      if (system && system.count > 0) {
-          return options.fn(this)
-      }
-      return options.inverse(this);
     });
 
     Handlebars.registerHelper('tab_taskcount', function (count) {
@@ -105,7 +90,7 @@
       }
     }('https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js', 5, function ($) {
       $(document).ready(function () {
-        if($("div.valo-tasks .tasks-tabs-nav li.active").length === 0) {
+        if($("div.compact .tasks-tabs-nav li.active").length === 0) {
           $('.tasks-tabs-nav li:first-child').addClass('active');
           
           // Make sure the first tab is selected and shown
@@ -130,14 +115,8 @@
     }));
   </script>
 </content>
-<content id="metadata" type="x-handlebars-metadata">
-  {
-    "totalResults": 3
-  }
-</content>
 
-
-<content id="template" type="x-template">
+<content type="x-template">
   <style>
     /*tabs new */
     .tasks-tabs-nav ul {
@@ -194,24 +173,7 @@
       display: none;
     }
 
-    .cle {
-      display: block;
-      font-size: 0;
-      content: " ";
-      clear: both;
-      height: 0;
-    }
-
-    .clearfix {
-      display: inline-block;
-    }
-
     /* Todo styling */
-    .task-box {
-      margin: -6px -16px 0px -16px;
-      padding: 2px 0px;
-    }
-
     .task-box-title {
       font-size: 15px;
       padding: 4px 8px;
@@ -220,7 +182,8 @@
     }
 
     .task-box-list {
-      overflow: auto;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
       list-style-type: none;
       margin: 0px auto;
       padding: 0px;
@@ -256,10 +219,8 @@
     .task-box-listitem-content {
       padding: 4px 4px 4px 12px;
       font-size: 13px;
-    }
-
-    .valo-tabs__list {
-      padding-bottom: 0px !important;
+      width: 76%;
+      float: left;
     }
 
     .task-duedate-box {
@@ -1494,16 +1455,6 @@
       width: 50px;
     }
 
-    .task-box-listitem-content {
-      width: 76%;
-      float: left;
-    }
-
-    .task-box-list {
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
-    }
-
     .task-time-box {
       display: flex;
       float: left;
@@ -1596,23 +1547,7 @@
       line-height: 30px;
     }
   </style>
-  <div class="valo-tasks compact ms-Grid" template-id="valo-rec-compact">
-    <div>
-      {{#if tplTitle}}
-        <span class="vm-wpTitle">{{tplTitle}}</span>
-      {{/if}}
-      {{#if paging}}
-        <span class="paging ms-font-xl">
-          <a id="prevPage" class="valo-wp__wp-title-bar__pagination-link valoPaginationPrevPage" href="javascript:;">
-            <i class="ms-Icon ms-Icon--ChevronLeft" aria-hidden="true"></i>
-          </a>
-          <a id="nextPage" class="valo-wp__wp-title-bar__pagination-link valoPaginationNextPage" href="javascript:;">
-            <i class="ms-Icon ms-Icon--ChevronRight" aria-hidden="true"></i>
-          </a>
-        </span>
-      {{/if}}
-    </div>
-    
+  <div class="compact ms-Grid">    
     <div id="container">
       <header class="tasks-tabs-nav">
         <ul>
