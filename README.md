@@ -1,6 +1,6 @@
 # handlebar-templates
 
-Templates for the [VTFK API Template](https://github.com/vtfk/spfx-template) web part used on our intranet, ___Innsida___. 
+Templates for the [VTFK API Template](https://github.com/vtfk/spfx-apitemplate) web part used on our intranet, ___Innsida___. 
 
 "VTFK API Template" uses handlebars to dynamicly generate the web parts, with API data from any source. These templates/web parts is only tested and verified to work on Sharepoint Online.
 
